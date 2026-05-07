@@ -10,6 +10,10 @@ Organizes a SharePoint document library by scanning for duplicates, bad file nam
 - Step-by-step execution with a live TODO checklist that updates as each action completes
 - An HTML impact dashboard saved to the library showing the cleanup results
 
+## Demo content
+
+Sample files for trying this skill end-to-end are in [library-cleanup-demo/](../library-cleanup-demo/). Includes an intentionally messy folder structure with bad file names, duplicates, empty folders, and excessive nesting.
+
 ## Contribution
 
 | Property | Value |

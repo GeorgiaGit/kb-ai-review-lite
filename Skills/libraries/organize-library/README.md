@@ -11,6 +11,10 @@ Fully organizes a SharePoint document library end-to-end. Classifies files by co
 - Folder colors applied using brand colors from `SHAREPOINT.md`
 - Automated notification rules that alert a reviewer when any document is flagged Overdue
 
+## Demo content
+
+Sample files for trying this skill end-to-end are in [organize-library-demo/](../organize-library-demo/). Includes a mix of contracts, invoices, and purchase orders to upload to a library before running the skill.
+
 ## Contribution
 
 | Property | Value |

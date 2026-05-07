@@ -2,6 +2,8 @@
 
 AI skills are instruction files that give a Copilot agent a focused capability. Each skill lives in its own folder and is installed by uploading that folder to the **Skills** library in SharePoint.
 
+Some skills also have a sibling `<skill-name>-demo/` folder containing sample content you can use to try the skill end-to-end (e.g., [`libraries/library-cleanup-demo/`](./libraries/library-cleanup-demo/)). The skill folder itself stays clean for direct upload to SharePoint.
+
 ---
 
 ## Libraries
@@ -45,6 +47,10 @@ A skill is a folder containing a `SKILL.md` and a `README.md`. The folder name m
 | `README.md` | Description, what you get, and contribution credits |
 | `assets/sample.json` | Metadata for the PnP community samples gallery |
 | `assets/preview.png` | Screenshot of the skill's output for the samples gallery |
+
+**Optional — demo content:**
+
+If your skill benefits from a hands-on demo, create a sibling folder named `<skill-name>-demo/` next to the skill folder. Include a `README.md` with setup steps and a `sample-files/` folder with the demo content. Keeping demo content in a separate folder ensures the skill folder stays clean for direct upload to SharePoint.
 
 **`SKILL.md`** — the skill instructions:
 

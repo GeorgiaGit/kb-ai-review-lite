@@ -9,6 +9,10 @@ Classifies files in a SharePoint document library by reading their content and m
 - Metadata extracted from file content and written automatically
 - A `File classification` Choice column with a metadata extraction prompt for future autofill
 
+## Demo content
+
+Sample files for trying this skill end-to-end are in [file-classifier-demo/](../file-classifier-demo/). Includes a mix of contracts, invoices, and purchase orders to upload to a library before running the skill.
+
 ## Contribution
 
 | Property | Value |
