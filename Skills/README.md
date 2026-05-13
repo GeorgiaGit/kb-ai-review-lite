@@ -8,7 +8,7 @@ Some skills also include a `demo/` subfolder containing sample content you can u
 
 - **Browse skills:** [Libraries](#libraries) · [Operations](#operations) · [Styling](#styling)
 - **Install:** [Installing a Skill](#installing-a-skill)
-- **Contribute:** [Creating a Skill](#creating-a-skill) · [Categories](#categories) · [Required files](#required-files) · [File templates](#file-templates) · [✅ Pre-submission checklist](#pre-submission-checklist)
+- **Contribute:** [✅ Pre-submission checklist](#pre-submission-checklist) · [Creating a Skill](#creating-a-skill) · [Categories](#categories) · [Required files](#required-files) · [File templates](#file-templates)
 
 ---
 
