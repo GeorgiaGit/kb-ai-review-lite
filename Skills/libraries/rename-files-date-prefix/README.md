@@ -12,7 +12,7 @@ Renames all files in a SharePoint document library — including files in subfol
 
 ## Demo content
 
-Sample files for trying this skill end-to-end are in the [demo/](./demo/) subfolder. Upload them to a library before running the skill. Skip this folder when uploading the skill to SharePoint.
+Add any files to a document library - so no demo content required.
 
 ## Contribution
 
