@@ -1,0 +1,61 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-invoice-po-reconciliation",
+    "source": "pnp",
+    "title": "Invoice to Purchase Order Reconciliation",
+    "shortDescription": "Reconciles one or more user-selected invoice files against their matching purchase orders in the Purchase Order library. Compares totals, flags discrepancies, writes reconciliation status back to invoice metadata, and returns a formatted summary table.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/invoice-po-reconciliation",
+    "longDescription": [
+      "Automates the procure-to-pay reconciliation step that teams normally do by hand or with custom Power Automate flows. For each selected invoice, the skill reads the invoice metadata (or extracts it from the file content), locates the matching PO in the Purchase Order library by PO Number, and compares totals to determine whether the invoice is Compliant or Non Compliant.",
+      "Writes Reconciliation Status and Reconciliation Details back to the invoice item, then returns a Markdown summary table showing Invoice #, Invoice Total, PO #, PO Total, Status (Compliant / Non Compliant / No Match), and the remaining budget or overage amount. Trigger phrases include 'reconcile invoice', 'invoice to po reconciliation', 'match invoice to po', and 'check invoice against po'."
+    ],
+    "creationDateTime": "2026-05-07",
+    "updateDateTime": "2026-05-25",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SharePoint-AI-Skill"
+      },
+      {
+        "key": "SKILL-CATEGORY",
+        "value": "Document Management"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/invoice-po-reconciliation/assets/preview.png",
+        "alt": "Invoice to Purchase Order Reconciliation skill in action"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "zrosenfield",
+        "pictureUrl": "https://github.com/zrosenfield.png",
+        "name": "Zach Rosenfield"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      },
+      {
+        "name": "Demo: Invoice to PO Reconciliation with Skills in SharePoint",
+        "description": "YouTube walkthrough showing the skill in action.",
+        "url": "https://youtu.be/bevHxmaFys4"
+      },
+      {
+        "name": "Demo: Creating the Skill in SharePoint for Invoice to PO Reconciliation",
+        "description": "YouTube walkthrough showing how the skill was built.",
+        "url": "https://youtu.be/AA0fdsnFl_g"
+      }
+    ]
+  }
+]

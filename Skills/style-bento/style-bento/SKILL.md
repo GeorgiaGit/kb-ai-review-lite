@@ -300,3 +300,16 @@ Horizontal compartment grid. Each section is a labeled box.
 - ✅ Subtle shadow (not hard offset) — organized, not aggressive
 - ✅ On Track / At Risk indicator under the status badge
 - ✅ Completely different layout from Neobrutalism (compartments vs sidebar) and Glassmorphism (horizontal vs stacked)
+
+---
+
+## Responsive / mobile
+
+- **≤ 600 px**: bento compartments stack vertically rather than sitting side-by-side. Set the row container to `flex-wrap: wrap` and each compartment to `min-width: 0` so titles ellipsis-truncate.
+- **≤ 480 px**: hide the compartment labels (Document / Status / Progress / Deadline), keep only the values. The compartment dividers carry the structure on their own.
+- **Padding step-down**: 16px desktop → 12px tablet → 8px mobile.
+- **Touch targets**: any `customRowAction` element stays ≥ 44 × 44 px on mobile.
+
+## Implementation notes
+
+The tokens + `rowFormatter` JSON in this file has grown large. When adapting it for a real library, treat the **tokens block** as the source of truth and re-derive the rowFormatter from it — do not mass-edit both halves of the file in parallel. A future iteration should split this into two reference files (tokens first, then rowFormatter that consumes them).

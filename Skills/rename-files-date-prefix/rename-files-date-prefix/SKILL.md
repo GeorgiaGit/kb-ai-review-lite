@@ -65,13 +65,24 @@ After processing, show a summary:
 - Format: `yyMMdd` — 2-digit year, 2-digit month (zero-padded), 2-digit day (zero-padded).
 - Example: December 3, 2025 → `251203`
 - Example: January 15, 2024 → `240115`
+- **Time zone**: SharePoint returns `Created` in UTC. Format the prefix from **the site's regional time zone**, not raw UTC, so a file uploaded at 23:30 local time keeps its local-day date. If the site time zone cannot be determined, fall back to UTC and tell the user once in the preview header ("Dates are formatted in UTC — set the site regional settings to use local time.").
 
 ## Edge Cases
 - **Already prefixed files:** Skip any file whose name starts with 6 digits followed by a hyphen (`^\d{6}-`).
 - **Folders:** Never rename folders — only process items where `FSObjType` = 0.
 - **Subfolders:** Process files in all subfolders recursively (use `fetchAll: true`).
-- **Duplicate names:** If renaming would create a duplicate in the same folder, log it as an error and skip.
+- **Duplicate names after prefixing:** If the proposed `yyMMdd-Name` already exists in the same folder, **do not rename and do not overwrite**. Mark the file as `Skipped (name collision)` in the preview / results with the conflicting target name shown. Never append numeric suffixes (`-1`, `-2`) to disambiguate — the user must resolve the conflict manually. The other files in the batch still rename.
 - **Special characters:** Preserve the original filename exactly as-is after the prefix.
+- **Empty libraries:** If no files match the CAML query, tell the user the library has no files to rename and stop — do not show an empty preview table.
+
+## Resuming after a mid-batch failure
+
+Long runs can be interrupted — throttling, network drop, the user closing the chat. The skill must be **safe to re-run from scratch** without any extra bookkeeping:
+
+- The `^\d{6}-` skip check automatically excludes every file that was successfully renamed in the previous run. Re-running picks up exactly where the failure stopped.
+- If a file failed mid-rename (rare — SharePoint renames are atomic), it will still match the original name and be processed again in the next run.
+- **Do not** keep an external "already processed" list, lock file, or marker column. The filename itself is the source of truth.
+- After a partial run, the Step 7 results report must clearly distinguish **Renamed**, **Skipped (already prefixed)**, **Skipped (name collision)**, and **Errors** so the user can decide whether to re-run.
 
 ## Example
 
@@ -93,4 +104,5 @@ Ready to rename 2 files? Confirm to proceed.
 - Never rename without showing the preview first.
 - Never rename folders.
 - Never double-prefix files.
-- Always process errors gracefully — one failure should not stop the entire batch.
+- Never append numeric suffixes to resolve name collisions — mark as `Skipped (name collision)` instead.
+- Always process errors gracefully — one failure should not stop the entire batch. Safe to re-run; the `^\d{6}-` skip check protects already-renamed files (see **Resuming after a mid-batch failure**).

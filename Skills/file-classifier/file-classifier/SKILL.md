@@ -1,3 +1,7 @@
+---
+name: file-classifier
+description: Classifies files in a SharePoint document library by reading their content and matching them to known content types (Contracts, Invoices, Purchase Orders). Creates a File classification Choice column plus 5 metadata columns per content type, extracts values from each file, and writes them back automatically. Use when the user asks to classify, categorize, tag, or auto-label files in a library, or to set up content types with metadata extraction. Trigger phrases: classify files, classify documents, classify library, categorize files, tag files, auto-classify, set up content types, extract metadata, identify contracts invoices purchase orders.
+---
 # File Classifier
 
 ## Purpose
@@ -212,14 +216,29 @@ Apply these when a value cannot be found in the document:
 
 ---
 
+## Partial-batch failure handling
+
+File content extraction can fail for individual files — corrupt documents, password protection, unsupported formats, transient `cat_file` errors, or content too large for a single read. The run **must not abort** on a single-file failure.
+
+Rules:
+
+- **Continue the batch.** If `cat_file` fails for a file, capture the error, mark that file's classification as `Unclassified`, and move on to the next file. Do not roll back classifications already written.
+- **Do not fabricate metadata.** A file that could not be read gets `Unclassified` and no metadata columns are populated for it. Never guess values to keep the row "complete".
+- **One retry, then skip.** For transient errors (network/timeout), retry the single file once. If the retry also fails, classify it `Unclassified` with the failure reason recorded in the final report.
+- **Report every failure explicitly.** The Step 6 results list must call out failed files on their own line, with the reason. Example: `velocity-motors-legal-services-invoice.docx → Unclassified | read failed: password protected`.
+- **End-of-run summary.** After processing all files, add a one-line tally: `Classified X of Y files. Z failures (see above).` so the user can see at a glance whether the run needs follow-up.
+- **Never silently drop a file.** Every file in the input set must appear in the final report, either with its classification or with a failure reason.
+
+---
+
 ## Constraints
 - Never invent a content type outside the valid list.
 - Never fabricate metadata — extract only what is present, or apply a designated default.
-- Default to "Unclassified" when uncertain.
+- Default to "Unclassified" when uncertain or when content extraction fails.
 - Do not create metadata columns for "Unclassified" files.
 - "File classification" must be a Choice field with a metadataExtractionPrompt.
 - All metadata columns must include metadataExtractionPrompt values for future autofill.
 - Never create a column if one with the same internal name already exists.
 - Subtypes always map to their parent — never create classification values for subtypes.
 - Confirm with the user before bulk updates.
-- Process files in batches for large libraries.
+- Process files in batches for large libraries. A single-file failure must not abort the batch — see **Partial-batch failure handling** above.

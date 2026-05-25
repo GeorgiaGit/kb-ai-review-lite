@@ -2,12 +2,25 @@
 
 Classifies files in a SharePoint document library by reading their content and matching them to known content types (Contracts, Invoices, Purchase Orders). Creates the appropriate metadata columns, extracts values from each file, and saves them automatically.
 
+![preview](./assets/preview.png)
+
 ## What you get
 
 - Files classified into **Contracts**, **Invoices**, or **Purchase Orders** based on document structure — not just keywords
 - 5 metadata columns created per content type (identifier, key party, critical date, financial amount, status)
 - Metadata extracted from file content and written automatically
 - A `File classification` Choice column with a metadata extraction prompt for future autofill
+
+## When to use
+
+Ask Copilot any of the following (or close variations):
+
+- *"classify files"* / *"classify documents"* / *"classify library"*
+- *"categorize files"* / *"tag files"* / *"auto-classify"*
+- *"set up content types"* / *"extract metadata"*
+- *"identify contracts invoices purchase orders"*
+
+Works best on a library that already contains a mix of contracts, invoices, and purchase orders — the skill needs real content to read.
 
 ## Demo content
 

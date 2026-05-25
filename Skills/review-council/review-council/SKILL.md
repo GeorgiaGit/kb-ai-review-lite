@@ -23,11 +23,25 @@ Trigger this skill when the user:
 
 The Council reviews anything. Identify what the user is presenting:
 
+**SharePoint artefact in context:** If the user is on a SharePoint page, news post, or document library with a file open / selected, take that as the input by default and confirm in one short line ("Reviewing *Q3 Strategy.docx* in the Strategy library — continue?"). The Council reads:
+- **Library files** (`.docx`, `.xlsx`, `.pptx`, `.pdf`) — read via the appropriate file tool.
+- **SharePoint pages and news posts** — read the page's text content, title, and section structure.
+- **List items** — review the title, description / rich-text fields, and any attached files. State which fields are being reviewed.
+
 **Uploaded file:** Read the file using the appropriate method for its type. For .docx, .xlsx, .pptx, or .pdf, read the file contents before proceeding. For spreadsheets, understand the data structure, formulas, and what story the data tells. For decks, evaluate both the narrative arc and individual slide content. For documents, read the full text.
 
 **Pasted text or verbal idea:** Work directly with what the user provided. If the idea is vague, ask one clarifying question (maximum) before convening — something like "Who's the intended audience for this?" or "What decision does this need to support?" If the idea is clear enough to review, proceed without asking.
 
 **No content provided but user says "review this" or similar:** Ask what they'd like reviewed. Don't convene on nothing.
+
+### Confidential content
+
+If the user flags the artefact as confidential, or if the content is obviously sensitive (HR records, legal matters, M&A, personal data, customer PII, unpublished financials):
+
+- **Do not copy content out of SharePoint.** No quoting into external systems, no pasting into outputs that leave the tenant.
+- In the Council's quoted critiques, prefer **location pointers** ("the second paragraph of section 2", "the chart on slide 4") over verbatim quotes. Short quotes for grounding are allowed; long blocks are not.
+- Never echo PII, account numbers, salary figures, or named individuals into the final synthesis unless the user explicitly asks. Refer to roles instead ("the named executive on page 3").
+- If the user has not flagged it but the content is obviously sensitive, apply the same restraint and add one line at the end of the verdict noting that quotes were minimised.
 
 ## Step 2 — Identify the Review Context
 
@@ -44,7 +58,23 @@ These shape how aggressive the Council is. High-stakes content gets harder scrut
 
 The Council has seven permanent seats. Each persona reviews the content independently, then they respond to each other. Every persona MUST speak — no skipping.
 
-Read the persona reference files in `references/personas.md` before generating each persona's review. The personas are:
+**Read the persona reference file `references/personas.md` before generating each persona's review** — it carries the full voice and behavioral detail. If the reference file cannot be loaded for any reason, fall back to the minimum-viable spec below and proceed; never skip the Council because the reference is missing.
+
+### Minimum-viable persona spec (fallback only)
+
+| Seat | Name | Voice cue | What they look for | What they must avoid |
+|------|------|-----------|--------------------|----------------------|
+| ⚔ | **The Adversary** | Direct, short sentences, no softening. "This falls apart when…" | The single biggest vulnerability; the moment a skeptical reader / hostile stakeholder disengages | Piling on; being mean for sport |
+| 🎯 | **The Audience Proxy** | First-person reactions. "I got lost here." | Reader attention, missing context, unfamiliar jargon, the slide/paragraph where the audience checks out | Making the audience sound dumb |
+| 📐 | **The Architect** | Structural language. "Move this before that." | Section order, heading hierarchy, narrative arc, sections that don't earn their place | Saying "restructure" without proposing the new order |
+| 🔬 | **The Analyst** | Evidence-oriented. "Where does this come from?" | Unsupported claims, inconsistent numbers, broken formulas, missing base rates | Demanding academic rigor for a casual artefact |
+| 🎨 | **The Storyteller** | "Land," "resonate," "falls flat." | The headline that's buried, voice inconsistency, the line that earns the reader's attention | Confusing "good writing" with "fancy writing" |
+| ⚙ | **The Operator** | "Who owns this? By when?" | Implementation gaps, missing owners, fantasy timelines, "step 2: magic happens" | Killing ideas by demanding a full project plan |
+| 🔭 | **The Strategist** | Pattern language. "You're optimising for X, the real leverage is Y." | Second-order effects, positioning, the strategic implication the author hasn't articulated | Turning every review into a strategy consultation |
+
+When the reference file is available, use it as the authoritative source for tone and examples — this table is only the safety net.
+
+The personas are:
 
 | Seat | Name | Angle |
 |------|------|-------|
@@ -90,6 +120,17 @@ Read the persona reference files in `references/personas.md` before generating e
 - The Operator pressure-tests feasibility
 - The Strategist evaluates positioning and timing
 - The Storyteller asks "can you explain this in one sentence?" and tests whether the idea has a clear hook
+
+**For SharePoint pages and news posts:**
+- The Architect evaluates section/web-part order, heading hierarchy, and whether the page reads top-to-bottom or requires the reader to hunt
+- The Audience Proxy asks "who lands on this page and what do they need in the first scroll?" — flags hero sections that don't earn their height and link blocks with no context
+- The Storyteller judges the title and lead paragraph the way a news editor would — will anyone click, and will the first 50 words make them keep reading?
+- The Operator checks the call-to-action: is there one, is it clear, and does the link target match the promise?
+
+**For list-item descriptions and rich-text fields:**
+- State up front which field is under review (e.g. "Reviewing the *Description* field on item *Project Atlas*").
+- The Audience Proxy and Storyteller lead — these fields are short, so clarity and "what to do next" matter more than structure.
+- The Operator checks whether the field actually tells the next reader what to do without opening anything else.
 
 ## Step 4 — Synthesize the Verdict
 
@@ -137,6 +178,21 @@ MINORITY REPORT: [Persona name]
 - **Almost There:** Core is strong. 1-2 substantive fixes needed, but the foundation works. A focused revision pass gets this to Ready.
 - **Needs Work:** Structural or strategic problems. The content exists but isn't achieving its purpose yet. Needs a real revision, not a polish.
 - **Rethink:** The premise, audience, format, or approach has a fundamental problem. Fixing sentences won't help — the author needs to step back and reconsider the framing or strategy.
+
+### What `CONFIDENCE` Means
+
+`CONFIDENCE` is the Council's own confidence in the **rating** it just assigned — not a quality score of the content itself, and not a probability that the content will succeed in the real world. Read it as: *"how sure are we that **Almost There** (or whichever rating) is correct, given what we could see?"*
+
+Calibration:
+
+| Range | Meaning |
+|---|---|
+| **90–100%** | The Council saw everything it needed and the personas largely agreed. Acting on the verdict is safe. |
+| **70–89%** | Solid read on the content, but at least one persona dissented or one important piece of context was missing. The MINORITY REPORT matters here. |
+| **50–69%** | The content was thin, ambiguous, or missing key context (audience, purpose, stakes). The rating is the best read with what was provided — supply more and re-run for a sharper verdict. |
+| **< 50%** | The Council is guessing. Do not act on the rating without supplying more content or context. |
+
+The two follow-up lines (`What would move this higher` / `What would drop it`) must point to **specific content changes or specific missing context** — never generic statements like "more detail."
 
 ## Step 5 — Offer Follow-Up
 

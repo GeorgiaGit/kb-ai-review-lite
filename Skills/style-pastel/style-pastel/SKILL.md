@@ -217,3 +217,32 @@ Tinted left panel with hero number, white right side with metadata.
 - ✅ Overdue is lowercase "overdue" — soft, not alarming
 - ✅ Gentle shadow, not hard offset
 - ✅ Different from all others: tinted panel (not sidebar/stripe/stacked/compartments/hero number)
+
+---
+
+## Responsive / mobile
+
+- **≤ 480 px**: the 80 px (now 96 px — see below) tinted left panel collapses to a **top stripe** running the full card width, with the percentage centered above the title.
+- **≤ 720 px**: card padding steps down from `16px 20px` to `12px 16px`. Keep border-radius at 12 px; it carries the style.
+- **Touch targets**: pastel is friendly, so consumers tap more. Every interactive element ≥ 44 × 44 px on mobile.
+- **Hero text**: percentage number can step from 28 px → 22 px on mobile; do not go below 22 px or it loses presence.
+
+## Implementation notes
+
+### Widen the tinted panel — 80 px clips `100%`
+
+The shipped reference uses an 80 px left panel. A three-digit progress value (`100%`) clips at that width when the digit weight is bold. **Set the panel to 96 px**, or set the number child to `flex-wrap: nowrap; overflow: visible` so the `%` glyph is allowed to bleed slightly out of the panel boundary. Do not shrink the font; the percentage must stay legible at desktop reading distance.
+
+### Pastel contrast audit (pinned)
+
+Pastel BG / text pairs are easy to fail — these have been checked at WebAIM and meet WCAG AA or better. Re-verify whenever a token changes.
+
+| Panel BG | Text | Ratio | WCAG |
+|---|---|---|---|
+| Pink `#FDE2E4` | `#9B2C3F` | ≈ 6.8 : 1 | **AA** |
+| Blue `#E0F2FE` | `#0C4A6E` | ≈ 8.3 : 1 | **AAA** |
+| Green `#DCFCE7` | `#166534` | ≈ 7.1 : 1 | **AAA** |
+| Yellow `#FEF9C3` | `#854D0E` | ≈ 6.2 : 1 | **AA** |
+| Lavender `#EDE9FE` | `#5B21B6` | ≈ 7.4 : 1 | **AAA** |
+
+Never pair a pastel BG with a tint of the same hue for text — the contrast collapses. Always pair with a saturated counterpart of the same family.

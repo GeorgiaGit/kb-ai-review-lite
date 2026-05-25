@@ -307,3 +307,25 @@ Key differences from every other style:
 - ✅ Overdue is the ONLY red (`#dc2626`) — left edge, stamp, date, and label all flip to red
 - ✅ Overdue card border turns red on ALL sides — impossible to miss
 - ✅ Silhouette test: two flat lines with a left edge looks NOTHING like a banner card or sidebar card
+
+---
+
+## Responsive / mobile
+
+- **≤ 720 px**: the high-density inline metadata wraps to a second line under the title. Keep the blue left-edge accent at full height.
+- **≤ 480 px**: drop the swatch ramp from 8 swatches to ~3 in practice — primary, accent, overdue red. Hide tertiary chips entirely; never shrink chip text below 12 px on mobile.
+- **Hero text step-down**: 16 px → 14 px on mobile. The style relies on tight stacking, not large text.
+
+## Implementation notes
+
+### Palette trim
+
+The shipped palette ships nine blue swatches (1–9). In practice, swatches 4–6 are largely interchangeable to the eye and can be collapsed when re-skinning. A safe minimum set is **swatch 1 (primary)**, **swatch 7 (accent)**, and the **overdue red `#dc2626`**. Anything beyond that is connoisseur territory — use only when the list has 5+ distinct status values that genuinely need separation.
+
+### Rubber-stamp double-ring fallback
+
+The double-ring rubber-stamp badge depends on a nested element pattern (inner ring + outer ring). If the second ring's offset or `clip-path` is dropped by a SharePoint theme or modern view renderer:
+
+- Fall back to a single solid ring at the outer color, with the inner space filled by a lighter tint of the same swatch.
+- Keep the uppercase status text inside — the ring is decoration; the label carries the meaning.
+- Never substitute a pill — it breaks the silhouette test.

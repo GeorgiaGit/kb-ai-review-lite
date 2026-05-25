@@ -233,3 +233,25 @@ Single-column floating card. No sidebar. Everything stacks vertically with gener
 - ✅ No emoji, no icons — pure typography
 - ✅ The layout is the OPPOSITE of Neobrutalism — no split, no sidebar, no heaviness
 - ✅ Feels like a modern SaaS app, not SharePoint
+
+---
+
+## Responsive / mobile
+
+- **≤ 480 px**: reduce card padding from `20px 24px` to `12px 16px`. Keep the 16 px border-radius — it carries the style identity.
+- Hide the deadline sublabel under 480 px; keep the date itself.
+- Do not shrink the soft shadow further on mobile — it is already the lightest treatment; instead, if rendering is throttled, drop it entirely (see fallback below).
+- **Touch targets**: ≥ 44 × 44 px on any clickable element — the generous padding usually satisfies this naturally.
+
+## Implementation notes
+
+### Soft-shadow fallback
+
+Older SharePoint themes and some Modern view renderers strip multi-layer `box-shadow` values. When that happens, the cards lose their floating effect and merge into the page.
+
+- Detect this in QA by checking whether the shadow renders in the preview pane. If it doesn't, **add a 1 px hairline border** in `rgba(0,0,0,0.06)` to the card — just enough to re-establish the card edge without breaking the floaty tone.
+- Do not switch to a hard `box-shadow` offset — that turns the style into a different style.
+
+### The lowercase "overdue" is intentional
+
+The overdue treatment in this style is the lowercase italic word `overdue`, not an emoji and not a red badge. **Do not "fix" it to uppercase or add a warning icon.** The style's whole proposition is that nothing shouts — even bad news is whispered. A consumer who finds this too subtle should pick a different style, not edit this one.

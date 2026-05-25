@@ -20,6 +20,7 @@ The `sample-files/` folder contains an intentionally messy library structure wit
 ## What to expect
 
 The agent will:
+
 - Scan the library and report issues (duplicates, bad names, empty folders, nesting depth)
 - Calculate an Organization Score (0–100) for the current state
 - Read file content to propose meaningful, content-based rename suggestions

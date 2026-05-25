@@ -2,6 +2,8 @@
 
 Fully organizes a SharePoint document library end-to-end. Classifies files by content type, applies brand-consistent column formatting, creates filtered views per content type, colors folders, and sets up notification rules for overdue items.
 
+![preview](./assets/preview.png)
+
 ## What you get
 
 - Files classified and metadata extracted using the **file-classifier** skill
@@ -11,6 +13,17 @@ Fully organizes a SharePoint document library end-to-end. Classifies files by co
 - Folder colors applied using brand colors from `SHAREPOINT.md`
 - Automated notification rules that alert a reviewer when any document is flagged Overdue
 
+## When to use
+
+Ask Copilot:
+
+- *"organize library"* / *"organize document library"*
+- *"set up library"* / *"structure library"*
+- *"brand library"* / *"apply brand to library"*
+- *"full library makeover"* / *"organize and format library"*
+
+Best on a document library that already contains a mix of contracts, invoices, and purchase orders. The skill orchestrates the [file-classifier](../file-classifier/) skill end-to-end and reads `SHAREPOINT.md` for brand colors — if no `SHAREPOINT.md` is present, a fallback palette is used (see the skill instructions).
+
 ## Demo content
 
 Sample files for trying this skill end-to-end are in the [demo/](./demo/) subfolder. Includes a mix of contracts, invoices, and purchase orders to upload to a library before running the skill. Skip this folder when uploading the skill to SharePoint.
@@ -19,7 +32,7 @@ Sample files for trying this skill end-to-end are in the [demo/](./demo/) subfol
 
 | Solution | Author(s) |
 | --- | --- |
-| file-classifier | Joe Komban (Microsoft) &#124; [GitHub](https://github.com/JoeFranc) &#124; [LinkedIn](https://www.linkedin.com/in/kjoefrancis/) |
+| organize-library | Joe Komban (Microsoft) &#124; [GitHub](https://github.com/JoeFranc) &#124; [LinkedIn](https://www.linkedin.com/in/kjoefrancis/) |
 
 ## Version history
 

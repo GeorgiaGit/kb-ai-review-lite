@@ -281,3 +281,30 @@ Key difference from Neobrutalism: Neobrutalism is a HORIZONTAL split (sidebar le
 - ✅ Overdue cards: banner turns hot pink, border/shadow turn hot pink, 🔥 replaces ✨
 - ✅ The list looks like a bag of candy exploded — in a good way
 - ✅ Silhouette test: banner-on-top looks NOTHING like sidebar-on-left (Neobrutalism)
+
+---
+
+## Responsive / mobile
+
+- **≤ 600 px**: drop the colored `box-shadow` offset from 4 px to 2 px so it doesn't clip the next card.
+- **≤ 480 px**: the banner stays full-width — it carries the identity. Stack the metadata (progress + deadline) vertically below it.
+- **Hero text**: the large progress percentage below the banner steps `32 px → 24 px` on mobile. Do not go below 24 px.
+- **Touch targets**: ≥ 44 × 44 px on the row card.
+
+## Implementation notes
+
+### Status-tinted shadows render inconsistently
+
+The colored `box-shadow` (hot pink for overdue, banner color elsewhere) is **not portable**:
+
+- **Chrome / Edge**: render the offset and color correctly.
+- **Safari**: occasionally mutes saturation on `box-shadow` colors, so the pink reads more salmon than hot.
+- **Older SharePoint themes**: strip multi-layer or colored `box-shadow` entirely.
+
+**Provide a fallback that does not depend on the shadow**: the colored top banner must always render — it is the primary identity element. The shadow is decoration. When QA shows the shadow is missing in a target environment, do not add a different decoration; let the banner do the work.
+
+### The pink/blue/teal progress palette is intentional — explain it once
+
+Consumers used to traffic-light progress (red < 30% → amber → green ≥ 70%) will see a 95 % card filled in **teal** and assume the style is broken. It is not. Retro Memphis progress goes **pink → blue → teal** by design — each value gets its own distinct hue, the way 80s Memphis palettes worked.
+
+When applying this style for the first time in a tenant, surface this fact in a single sentence to the user: *"Progress in Retro Memphis uses pink → blue → teal instead of red → amber → green — that's intentional."*

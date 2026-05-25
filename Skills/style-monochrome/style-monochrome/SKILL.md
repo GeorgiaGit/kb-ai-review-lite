@@ -210,3 +210,24 @@ Hero progress number on the left, metadata stacked right.
 - ✅ No shadow — flat, corporate, restrained
 - ✅ Metadata flows as: name → badge + date inline → progress bar
 - ✅ Most restrained style — the opposite of Retro's loudness
+
+---
+
+## Responsive / mobile
+
+- **Hero progress number** scales `56 px → 40 px → 32 px` across breakpoints `≥ 1024 px → ≤ 600 px → ≤ 375 px`. The number must remain the dominant element at every breakpoint.
+- **≤ 480 px**: collapse "name → badge + date inline → progress bar" to a tighter vertical stack; keep the hero number on the left.
+- **No emoji / no icons** rule continues on mobile — do not add icons to compensate for lost color.
+- **Touch targets**: ≥ 44 × 44 px on the row card itself.
+
+## Implementation notes
+
+### Mapping non-linear lifecycles to the shade ramp
+
+The slate shade ramp assumes a **linear progression** — lightest shade for the earliest state, darkest for the final state. Real lifecycles often aren't linear (parallel branches, revert paths, holds). Map them as follows:
+
+- **Parallel branches that resolve to the same outcome** (e.g. `In Review (Legal)` and `In Review (Finance)`): assign the same shade to both. The style is tonal — multiple states sharing one shade is fine.
+- **Revert / paused states** (e.g. `Active → Paused → Active → Closed`): map `Paused` to the **same shade as the most recent forward state**, and add a thin 1 px dashed outline only. Do not pick a brighter shade — the intent of monochrome is tonal restraint, not state-traffic-lights.
+- **Terminal failure states** (e.g. `Cancelled`, `Rejected`): use the darkest shade and italicise the label. Still no red; the italic carries the signal.
+
+If the list has more than five distinct states, the shade ramp will start to feel ambiguous — pick a different style (Bento or Figma-clean handle 5+ states more legibly).

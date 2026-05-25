@@ -373,3 +373,25 @@ The Neobrutalism rowFormatter creates a two-panel card for each item:
 - ✅ Every text element is UPPERCASE or BOLD — nothing is lightweight
 - ✅ The overall card design is immediately recognizable as Neobrutalism
 - ✅ Someone seeing this would say "that can't be SharePoint"
+
+---
+
+## Responsive / mobile
+
+- **≤ 720 px**: the 280 px metadata sidebar collapses **below** the main content. Switch the row container to `flex-direction: column` and set both panels to `width: 100%`. The hard black border stays continuous around the full card.
+- **≤ 480 px**: drop the uppercase ON TRACK / AT RISK sublabel beside the status badge — the badge alone carries the state. Keep the progress percentage large; this style needs at least one big number visible on mobile.
+- **Hero text step-down**: status badge from 14 px → 12 px is acceptable; do not go smaller or the uppercase loses readability.
+- **Touch targets**: the "Open Item" button must be ≥ 44 × 44 px on mobile — widen its padding rather than shrinking text.
+
+## Implementation notes
+
+### Hard-shadow clipping at row edges
+
+The signature hard 4 px offset `box-shadow` is fragile in two situations:
+
+- **Adjacent rows with tight spacing**: when list row spacing drops below 8 px, the shadow of row N clips into the border of row N + 1. **Require list row spacing ≥ 12 px** when applying this style.
+- **SharePoint's table-style row containers**: some Modern view variants clip the right and bottom shadow at the row container edge. Two fixes — use whichever the renderer allows:
+  1. Set `overflow: visible` on the row wrapper (preferred).
+  2. Drop the shadow offset to 3 px so it fits inside the row's default padding (acceptable trade-off).
+
+Do not remove the shadow — it carries the style identity. Soft-shadow fallback is **not** a neobrutalism solution; pick a different style if the renderer refuses hard offsets.

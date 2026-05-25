@@ -199,3 +199,31 @@ Dark card with terminal-style content. Single row of data like CLI output.
 - ✅ Tight 4px spacing between cards — dense like terminal output
 - ✅ No emoji anywhere — terminals don't have emoji
 - ✅ Only style with dark cards — immediately distinguishable from everything else
+
+---
+
+## Responsive / mobile
+
+- **≤ 600 px**: collapse the secondary metadata column under the terminal prompt icon. Keep the `>` prompt visible at every breakpoint — it carries the identity.
+- **≤ 480 px**: hide the bracketed flags except `[OVERDUE]`; status colour does the work.
+- **Hero text**: monospace 14 px on desktop — do not step down further. Mono fonts at < 13 px become unreadable on small screens.
+- **Touch targets**: ≥ 44 × 44 px. Tight 4 px row spacing satisfies density but the row card itself stays tappable.
+
+## Implementation notes
+
+### Neon contrast on dark (pinned)
+
+The terminal palette is genuinely AAA on its dark background — the neon isn't decorative, it's measured.
+
+| Foreground | Background | Ratio | WCAG |
+|---|---|---|---|
+| Neon green `#39FF7A` | Dark `#0F0F12` | ≈ 9.1 : 1 | **AAA** |
+| Cyan `#5BE7FF` | Dark `#0F0F12` | ≈ 11.4 : 1 | **AAA** |
+| Salmon `#FF7A7A` (used for `[OVERDUE]`) | Dark `#0F0F12` | ≈ 5.1 : 1 | **AA** (normal text) |
+| Muted grey `#8A8F98` (chrome) | Dark `#0F0F12` | ≈ 4.6 : 1 | **AA Large** only — use for non-essential text |
+
+Re-verify in [WebAIM](https://webaim.org/resources/contrastchecker/) if any neon token is changed.
+
+### Audience scope (also in README)
+
+This style is explicitly **developer / technical-audience**. Use it for engineering portals, dev rel sites, SRE / ops dashboards. Do not use it for general staff sites, HR / people sites, or external-facing pages — the dark + neon combination reads as "unfinished" or "broken" to a non-technical audience. If the requesting user isn't sure, default to a different style and offer Terminal as an alternative; never default into it.

@@ -142,11 +142,42 @@ Save the file as cleanup-impact-report.html in the library root. Present the lin
 
 ---
 
+## Scale and resilience
+
+The skill must handle large libraries and partial failures gracefully — the consumer should never be left with a half-cleaned library and no idea what went wrong.
+
+### Large libraries (> 1000 items)
+
+- **Initial scan**: `list_items recursive=true` may exceed the response size limit on libraries with > 1000 items. If the call returns a truncated or paged response, fall back to **per-folder scanning**: enumerate top-level folders first, then walk each one in turn, aggregating the results in `execute_code`.
+- **Content reads in Phase 2**: do not call `cat_file` on every file. Read content **only for files with bad/vague names** (the rename candidates). For a 5000-file library this is typically < 100 reads.
+- **Batch the execution in Phase 3**: cap each move/rename batch at ~50 operations. After each batch, re-display the checklist and pause for the user's *"continue"* before starting the next batch. This keeps each step recoverable and visible.
+- **Throttling**: if the tenant returns a throttling error (HTTP 429 or equivalent), back off and retry the single operation once. If it fails again, mark the item as failed in the checklist and continue with the rest of the batch.
+
+### Partial failures during execution (Phase 3)
+
+Moves, renames, and folder deletions can fail for individual items — file locked, permission denied, name conflict, throttling. The run **must not abort** on a single-item failure.
+
+- **Continue the batch.** Capture the error against the failed checklist item, mark it `[✗]` (instead of `[x]` or `[ ]`), and move on. Do not roll back items already completed.
+- **One retry, then mark failed.** For transient errors (throttling, timeout), retry the single operation once. If it fails again, leave the `[✗]` and record the reason.
+- **End-of-batch summary.** After each batch, the re-displayed checklist must show counts: e.g. `42 succeeded, 3 failed, 5 remaining`.
+- **Final report.** The Phase 4 impact dashboard must include a **"Items that need attention"** section listing every `[✗]` item with its failure reason. If this section is empty, omit it.
+- **Never silently drop an action.** Every item from the approved plan must end the run as either `[x]` (done), `[✗]` (failed, with reason), or `[ ]` (skipped by the user) — never simply missing.
+
+### Phase 4 dashboard fallback
+
+`execute_code` and `create_text_file` may be unavailable, may fail to render the HTML, or may be blocked from writing to the library root.
+
+- **If `execute_code` fails**: skip the HTML generation and present the same content as a Markdown report inline in the chat — header, four metric cards as a Markdown table, before/after comparison, list of `[✗]` items. The cleanup itself is still considered successful; only the dashboard format degrades.
+- **If `create_text_file` fails to write to the library root**: try writing to a `Cleanup Reports` subfolder. If that also fails, return the HTML inline in the chat as a fenced code block and tell the user where they can paste it.
+- **Always surface the score change.** Even with no dashboard, the chat reply must include the before/after Organization Score and the count of completed vs failed actions.
+
+---
+
 ## Constraints
 
 - **Never delete, move, or rename files without explicit user approval of the overall plan.**
 - Always confirm the full plan in Phase 2 before executing anything in Phase 3.
 - **Never propose generic/placeholder rename names.** Always read the file content and derive a meaningful name from it.
 - Focus on making the library easy to browse for both humans and AI — clear naming, logical grouping, minimal nesting.
-- If the library has too many items for one pass, inform the user and process in batches.
+- For large libraries or partial failures, follow the rules in **Scale and resilience** above. A single-item failure must not abort the run.
 - The Organization Score formula should be consistent between Phase 1 and Phase 4 so the comparison is fair. Suggested formula: start at 100, subtract points for each duplicate (-3), each bad name (-3), each empty folder (-2), each level of nesting beyond 2 (-5), and each folder beyond a reasonable count (-1 per excess folder). Clamp to 0–100.
