@@ -52,6 +52,24 @@ The style file's rowFormatter uses reference column names: `[$Title]`, `[$FileLe
 
 **Before applying the rowFormatter, you MUST adapt it:**
 
+#### Column-discovery checklist
+
+Run this checklist against the schema you read in Step 1 **before** you start the find-and-replace. If you skip it, the generated JSON will reference columns that don't exist and the view will render blank cells.
+
+- [ ] **List every column** the user's list actually has, with its **internal name** (not display name). Spaces in display names become `_x0020_` in internal names — the rowFormatter uses internal names.
+- [ ] **Confirm the four role columns** are present and capture each one:
+  - Name/Title role → internal name = `______`
+  - Status role (Choice) → internal name = `______`, choices = `______`
+  - Progress role (Number 0–100) → internal name = `______`
+  - Deadline role (DateTime) → internal name = `______`
+- [ ] **Capture the exact Choice values** for the Status column — case-sensitive. "In Progress" ≠ "in progress" ≠ "InProgress".
+- [ ] **Note the Number column scale.** SharePoint stores `0.72` for a 72% slider but `72` for a free-entry number column. The rowFormatter must treat the value accordingly — do not assume.
+- [ ] **Check the Date column format.** Date-only vs Date-and-time changes which expression to use for overdue comparisons against `@now`.
+- [ ] **List any "extra" columns** the user wants surfaced (Owner, Priority, Category, etc.) and decide their slot per Step 3 rule 4 below.
+- [ ] **List any "missing" template columns** (e.g. the user has no Deadline) and mark the corresponding rowFormatter section for removal per Step 3 rule 5.
+
+If any item above cannot be filled in from the schema, **stop and ask the user** — do not guess column names or choice values.
+
 1. Identify which column in the user's list serves each role:
    - **Name/Title role**: The item or document name (e.g., `[$Title]`, `[$FileLeafRef]`, `[$ProjectName]`)
    - **Status role**: A Choice column with workflow states (e.g., `[$Status]`, `[$Phase]`, `[$Stage]`)
@@ -88,7 +106,38 @@ Generate tile formatting for card-based layouts.
 ### Step 5: Create a custom view
 Tell the user to create a new view named after the style (e.g., "Neobrutalism") so the formatting doesn't affect the default "All Items" view.
 
-### Step 6: Apply and verify
+### Step 6: Preview and test before committing
+
+**Never apply formatting to the default view, and never tell the user to skip this step.** A broken `rowFormatter` makes a list look empty and is a frightening experience for anyone who isn't a developer.
+
+1. Confirm the user is on the **new view** created in Step 5 — not "All Items" / "All Documents".
+2. Have the user paste the JSON via **Format current view → Advanced mode** and **click Preview**, not Save. The preview pane renders the row template against real data without persisting it.
+3. Walk through this checklist against the preview:
+   - [ ] Every row renders (no blank rows, no `[$ColumnName]` literals leaking through).
+   - [ ] Status pills show the right color for at least one row of each Choice value.
+   - [ ] Progress bars show varied widths — not all 0% and not all 100%.
+   - [ ] Deadline composition renders both a future date and a past date correctly (overdue treatment fires).
+   - [ ] Clickable elements open the item (`customRowAction` with `defaultClick` works).
+   - [ ] Resize the browser to ~600 px wide — see Step 7 below.
+4. Only after the preview checklist passes, tell the user to click **Save**.
+5. If anything in the checklist fails, iterate on the JSON — do not ask the user to save first and fix later. SharePoint will happily save a broken formatter.
+
+### Step 7: Mobile responsiveness
+
+A styled view that looks incredible on a 1920-px monitor and breaks on a phone is half a solution. SharePoint lists are rendered in three places that matter — desktop browser, Teams mobile, and the SharePoint mobile app — and they all hit narrow viewports.
+
+Apply these rules to every `rowFormatter` you generate, regardless of style:
+
+- **No fixed pixel widths greater than 240 px on row sections.** The 280-px sidebar pattern that appears in several style templates clips badly on mobile. Either drop to ≤ 240 px or convert the layout to use `flex` with `flex-basis` and `flex-grow` so the section can shrink.
+- **Wrap, don't overflow.** Use `flex-wrap: wrap` on the outer row container so the sidebar drops below the main content on narrow viewports instead of being cut off. Set `min-width: 0` on text children so long titles ellipsis-truncate rather than push their parent wider.
+- **Hide secondary metadata under ~480 px**, don't shrink it to unreadable. SharePoint supports `"@window.innerWidth < 480 ? 'none' : 'flex'"` style expressions — use them on tertiary chips (Owner, Category, sublabels) so the row stays scannable on a phone.
+- **Hero number sizing.** Progress percentages and status pills that look right at 32 px on desktop are oversized on mobile. Use a step-down expression: `"@window.innerWidth < 480 ? '20px' : '32px'"`.
+- **Touch targets.** Anything `customRowAction`-clickable must be at least 44 × 44 px on mobile. Don't ship pill-clicks that only work on a mouse.
+- **Test the preview at ~375 px (iPhone), ~600 px (tablet portrait), and ≥ 1024 px (desktop)** before saving — SharePoint's preview pane respects window resizing.
+
+If a style token file is missing responsive breakpoints, fill them in using the rules above and **report this back to the user** so they know the generated formatter is more responsive than the upstream style spec.
+
+### Step 8: Apply and verify
 
 ---
 

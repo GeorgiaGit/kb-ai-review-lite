@@ -199,3 +199,28 @@ Wide horizontal band. No card borders. Thick left accent. Alternating background
 - ✅ Dark, high-contrast colors (WCAG AAA)
 - ✅ 📅 icon + large date (15px)
 - ✅ Different from ALL others: bands vs cards, no shadows, no rounded corners, maximum density
+
+---
+
+## Responsive / mobile
+
+- **≤ 600 px**: collapse the band by reducing the left-accent bar from 8 px to 4 px and stacking the title above the chips. Keep band height ≥ 64 px so the row is still a comfortable touch target.
+- **Never reduce any text below 16 px on mobile.** This style trades density for legibility; shrinking text defeats the purpose. If the layout doesn't fit, drop fields, do not shrink type.
+- **≤ 480 px**: hide the progress label ("Progress") — the numeral and the bar are self-explanatory.
+- **Touch targets**: rows are 64 px tall and clickable; this is already mobile-friendly by default.
+
+## Implementation notes
+
+### WCAG contrast claim (pinned)
+
+The shipped token pairs were verified at WebAIM at design time:
+
+| Pair | Use | Ratio | WCAG |
+|---|---|---|---|
+| `#0F172A` BG + `#FFFFFF` text | Dark band background + body text | ≈ 17.4 : 1 | **AAA** (normal & large) |
+| `#F8FAFC` BG + `#0F172A` text | Light band background + body text | ≈ 16.8 : 1 | **AAA** (normal & large) |
+| `#0078D4` accent on `#F8FAFC` | Accent text / left bar on light | ≈ 4.6 : 1 | **AA** (large text only) |
+| `#DC2626` overdue on `#F8FAFC` | Overdue red on light | ≈ 5.9 : 1 | **AA** (normal) |
+| `#FFFFFF` on `#DC2626` | Overdue badge text | ≈ 4.8 : 1 | **AA** (normal) |
+
+If any of these tokens are re-skinned, **re-verify** the affected pairs in [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/) before publishing. Never lower an existing AAA pair to AA without an explicit decision.

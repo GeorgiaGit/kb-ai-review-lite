@@ -1,3 +1,7 @@
+---
+name: organize-library
+description: End-to-end orchestrator that fully organizes a SharePoint document library — classifies files by content type (via the file-classifier skill), creates and extracts metadata columns, applies brand-consistent column and view formatting, builds per-content-type views, colors folders, and creates notification rules for overdue items. Use when the user asks to organize, set up, structure, or transform a document library, or to apply branding and views across content types. Trigger phrases: organize library, organize document library, set up library, structure library, brand library, full library makeover, apply brand to library, organize and format library.
+---
 # Organize Library
 
 ## Purpose
@@ -28,6 +32,27 @@ Always report progress after each sub-step.
 **Always read SHAREPOINT.md before applying any formatting.** Resolve all color role names to hex values at runtime. For semi-transparent pill backgrounds, convert hex to `rgba()` at the specified opacity. Always use 4 parameters — never `rgb()`.
 
 **Disambiguation:** SHAREPOINT.md defines two Blue-Gray values. "Blue-Gray (Status)" = On Hold (#94A3B8). "Blue-Gray (Muted)" = muted text (#6B7280). Never swap them.
+
+### Fallback palette (no SHAREPOINT.md)
+
+If `SHAREPOINT.md` is not present in the workspace, or if the read fails, **do not abort**. Tell the user `SHAREPOINT.md` was not found, that a neutral fallback palette is being used, and that they can re-run after adding a brand file for branded results. Then continue with these hex values mapped to the same role names used elsewhere in this skill:
+
+| Role | Hex |
+|---|---|
+| Primary (Contoso Blue) | `#0078D4` |
+| Deep Navy | `#1B2A4E` |
+| Light Blue (group header bg) | `#EFF6FC` |
+| Medium Purple | `#7B68EE` |
+| Deep Purple (overdue) | `#5B21B6` |
+| Soft Green | `#22C55E` |
+| Blue-Gray (Status / On Hold) | `#94A3B8` |
+| Blue-Gray (Muted text) | `#6B7280` |
+| Default Folder Color | `darkBlue` |
+| Folder — Contracts | `darkPurple` |
+| Folder — Invoices | `darkBlue` |
+| Folder — Purchase Orders | `darkGreen` |
+
+Use the fallback values exactly as if they had come from `SHAREPOINT.md`. All other rules in this skill apply unchanged.
 
 ## Content Type Column Pattern
 
@@ -186,6 +211,14 @@ Create an automated notification rule for each status column so that documents f
   - **Action**: Send email notification to the configured reviewer
   - **Message**: Include the document name, status column name, the relevant date column value (due date or expiration date), and the financial amount column value
 - Create one rule per status column — do not merge into a single rule.
+
+#### If `create_list_rule` is unavailable or fails
+
+The rule-creation tool may not be present in every tenant, may fail per-rule due to permissions, or may return an error mid-batch. **Do not abort the run** — the rest of the organization work is already valuable on its own.
+
+- **If the tool is not available at all**: skip rule creation, tell the user explicitly ("automated notification rules are not available in this tenant — the rest of the library is fully organized"), and provide a one-paragraph manual fallback: open the library → **Automate** → **Rules** → **Create a rule** → *"A column changes"* → select the status column → set to **Overdue** → notify the reviewer. List each status column that would have had a rule.
+- **If one or more rules fail to create**: continue with the rest. Record the failure (column name + error message) and surface it in the Step 7 Summary Report under a **"Rules that need attention"** row. Never silently drop a rule.
+- **One retry, then move on.** Transient failures get exactly one retry per rule.
 
 **Talking point for demo**: This rule fires automatically as documents are uploaded or status changes — no manual monitoring required. The metadata we extracted is what makes the rule possible: without structured columns, there's nothing to trigger on.
 

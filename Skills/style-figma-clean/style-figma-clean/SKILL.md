@@ -203,3 +203,25 @@ Top-stripe card with a horizontal metadata row.
 - ✅ Very subtle shadow and border — precision, not drama
 - ✅ Most compact layout of all styles — highest information density
 - ✅ Completely different from: Neobrutalism (stripe vs sidebar), Glassmorphism (horizontal vs stacked), Bento (single-row vs compartments), Retro (subtle vs loud)
+
+---
+
+## Responsive / mobile
+
+- **≤ 480 px**: stack the inline metadata (status pill, progress, deadline) under the title rather than beside it. The top status-colored stripe stays its full width.
+- **Min-width hygiene**: every text child needs `min-width: 0` so long document names ellipsis-truncate without pushing siblings off-screen.
+- **Touch targets**: the row card is the click target — keep its height ≥ 56 px on mobile.
+- **Hero text**: 14 px on desktop is already the floor; do not step down further or the precision tone collapses.
+
+## Implementation notes
+
+### Two independent color channels — don't collapse them
+
+This is the single most common adaptation mistake. The style uses **two color encodings simultaneously** and they are driven by different fields:
+
+| Element | Driven by | Example |
+|---|---|---|
+| **Top stripe color** | **Status** (Choice value → palette swatch) | `In Review` → amber stripe |
+| **Progress fill color** | **Progress percentage** (red < 30% · amber 30–70% · blue ≥ 70%) | `82%` → blue fill |
+
+A card can therefore have an amber stripe and a blue progress fill simultaneously — that is correct, not a bug. When adapting the rowFormatter, keep these two `if()` expressions completely separate. Never derive one from the other.
