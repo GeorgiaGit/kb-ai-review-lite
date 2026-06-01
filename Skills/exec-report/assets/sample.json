@@ -1,0 +1,52 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-exec-report",
+    "source": "pnp",
+    "title": "Exec Report",
+    "shortDescription": "Generates a polished, self-contained HTML executive report or dashboard from any data source — SharePoint lists, CSV exports, or a verbal description.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/exec-report",
+    "longDescription": [
+      "Generates a polished, self-contained HTML executive report by interviewing the user or parsing their data, constructing and validating a JSON document, then rendering it into a sandbox-safe HTML file using a component library. The JSON is the authoritative source of truth; the HTML is fully determined by it.",
+      "Supports three narrative intent models (Achievement, Problem, Status) and seven layout components: KPI cards, trend chart, bar breakdown, comparison panel, status grid, data table, and narrative highlights. Four visual palette options. No external dependencies — output runs inside a SharePoint sandboxed iframe."
+    ],
+    "creationDateTime": "2026-05-29",
+    "updateDateTime": "2026-05-29",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SharePoint-AI-Skill"
+      },
+      {
+        "key": "SKILL-CATEGORY",
+        "value": "Reporting"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/exec-report/assets/preview.png",
+        "alt": "Exec Report skill generating an HTML executive report"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "zrosenfield",
+        "pictureUrl": "https://github.com/zrosenfield.png",
+        "name": "Zach Rosenfield",
+        "company": "Microsoft"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      }
+    ]
+  }
+]

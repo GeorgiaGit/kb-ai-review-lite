@@ -1,0 +1,52 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-scorecard-matrix",
+    "source": "pnp",
+    "title": "Scorecard Matrix",
+    "shortDescription": "Generates a polished, self-contained HTML heatmap scorecard — a weighted comparison matrix with computed totals, rank badges, and a winner highlight.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/scorecard-matrix",
+    "longDescription": [
+      "Generates a complete, self-contained HTML heatmap scorecard by interviewing the user or parsing their data, normalizing weights, constructing a validated JSON document, then rendering it into a sandbox-safe HTML file. Used for vendor evaluation, tool assessment, candidate scoring, competitive analysis, and any weighted multi-criteria ranking.",
+      "Pre-computes all heatmap cell backgrounds (low/mid/high tiers) and embeds them as inline styles — no JavaScript required for coloring. Includes gold/silver/bronze rank badges, a winner-row accent, a column averages row, and a rankings callout section. Four visual palette options. No external dependencies — output runs inside a SharePoint sandboxed iframe."
+    ],
+    "creationDateTime": "2026-05-29",
+    "updateDateTime": "2026-05-29",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SharePoint-AI-Skill"
+      },
+      {
+        "key": "SKILL-CATEGORY",
+        "value": "Decision Support"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/scorecard-matrix/assets/preview.png",
+        "alt": "Scorecard Matrix skill generating an HTML weighted comparison heatmap"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "zrosenfield",
+        "pictureUrl": "https://github.com/zrosenfield.png",
+        "name": "Zach Rosenfield",
+        "company": "Microsoft"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      }
+    ]
+  }
+]

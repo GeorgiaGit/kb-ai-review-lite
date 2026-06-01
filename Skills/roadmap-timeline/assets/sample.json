@@ -1,0 +1,52 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-roadmap-timeline",
+    "source": "pnp",
+    "title": "Roadmap Timeline",
+    "shortDescription": "Generates a polished, self-contained HTML roadmap or milestone timeline from any project data — SharePoint lists, pasted tables, or a verbal description.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/roadmap-timeline",
+    "longDescription": [
+      "Generates a complete, self-contained HTML visualization by interviewing the user or parsing their data, constructing and validating a JSON document, then rendering it into a sandbox-safe HTML file. Automatically chooses between two layouts: horizontal swimlane roadmap (for phase-range data) or vertical milestone timeline (for point-in-time events).",
+      "All layout positions are pre-computed as percentages and embedded as inline styles — no JavaScript is required for positioning. Includes a today-line overlay, status-colored phase blocks, and milestone diamonds. Four visual palette options. No external dependencies — output runs inside a SharePoint sandboxed iframe."
+    ],
+    "creationDateTime": "2026-05-29",
+    "updateDateTime": "2026-05-29",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SharePoint-AI-Skill"
+      },
+      {
+        "key": "SKILL-CATEGORY",
+        "value": "Planning"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/roadmap-timeline/assets/preview.png",
+        "alt": "Roadmap Timeline skill generating an HTML swimlane roadmap"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "zrosenfield",
+        "pictureUrl": "https://github.com/zrosenfield.png",
+        "name": "Zach Rosenfield",
+        "company": "Microsoft"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      }
+    ]
+  }
+]

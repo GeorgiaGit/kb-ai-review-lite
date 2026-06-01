@@ -1,0 +1,52 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-dossier",
+    "source": "pnp",
+    "title": "Dossier",
+    "shortDescription": "Renders a polished, self-contained HTML briefing from any data source — competitors, candidates, sites, or any grid of profile cards or single-subject one-pager.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/dossier",
+    "longDescription": [
+      "Generates a complete, self-contained HTML briefing by interviewing the user or parsing their data, constructing and validating a JSON document, then rendering it into a sandbox-safe HTML file. Automatically chooses between grid mode (2–8 subjects as responsive cards) and one-pager mode (1 subject as a rich full briefing).",
+      "Each subject card includes structured key facts, classification tags, a prose summary, and an optional activity timeline. The activity timeline is CSS-based — no JavaScript required. Four visual palette options. No external dependencies — output runs inside a SharePoint sandboxed iframe."
+    ],
+    "creationDateTime": "2026-05-29",
+    "updateDateTime": "2026-05-29",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SharePoint-AI-Skill"
+      },
+      {
+        "key": "SKILL-CATEGORY",
+        "value": "Reporting"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/dossier/assets/preview.png",
+        "alt": "Dossier skill generating an HTML profile card grid"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "zrosenfield",
+        "pictureUrl": "https://github.com/zrosenfield.png",
+        "name": "Zach Rosenfield",
+        "company": "Microsoft"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      }
+    ]
+  }
+]
