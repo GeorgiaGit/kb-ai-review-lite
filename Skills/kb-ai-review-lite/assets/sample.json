@@ -1,0 +1,56 @@
+[
+  {
+    "name": "pnp-sharepoint-skills-kb-ai-review-lite",
+    "source": "pnp",
+    "title": "KB AI Review Lite",
+    "shortDescription": "Lightweight AI quality-check skill for SharePoint KB libraries. Creates review columns, validates document accuracy, writes structured findings as metadata, scores each document, and schedules the next review by category.",
+    "url": "https://github.com/pnp/sharepoint-skills/tree/main/Skills/kb-ai-review-lite",
+    "longDescription": [
+      "KB AI Review Lite performs an AI-driven accuracy validation pass on knowledge base documents stored in a SharePoint document library. The skill reads each document, extracts concrete factual claims such as URLs, version numbers, ports, timeouts, and procedural steps, and validates them against category-specific sources including Microsoft MSRC, vendor documentation, and public runbooks.",
+      "On first run the skill creates all 9 required review columns automatically. A one-time manual step is required to enable unlimited text length on two columns — the skill detects this condition, stops before writing any data, and provides exact step-by-step instructions. All subsequent runs proceed directly to the review with no interruption.",
+      "Review output is written entirely as library metadata. The skill never modifies the original document content. Each reviewed file receives an AI Review Summary, a structured Markdown draft payload with findings and evidence, a Review Score displayed as a percentage bar, a color-coded AI Review State pill, an inferred KB Category, and a Next Review Date calculated from a category-based cadence."
+    ],
+    "creationDateTime": "2026-06-17",
+    "updateDateTime": "2026-06-17",
+    "products": [
+      "SharePoint",
+      "Microsoft 365 Copilot"
+    ],
+    "metadata": [
+      { "key": "SAMPLE-TYPE", "value": "SharePoint-AI-Skill" },
+      { "key": "SKILL-CATEGORY", "value": "Document Management" }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/sharepoint-skills/raw/main/Skills/kb-ai-review-lite/assets/preview.png",
+        "alt": "KB AI Review Lite showing Review Complete status, percentage score bars, and populated review metadata columns in a SharePoint document library"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "your-handle",
+        "pictureUrl": "https://github.com/your-handle.png",
+        "name": "Andrew Burns"
+      }
+    ],
+    "references": [
+      {
+        "name": "agentskills.io specification",
+        "description": "The specification that SharePoint AI skills follow for installation and discovery.",
+        "url": "https://agentskills.io/specification"
+      },
+      {
+        "name": "Extend AI in SharePoint with skills",
+        "description": "Microsoft Learn documentation on creating and deploying SharePoint AI skills.",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/ai-in-sharepoint-skills"
+      },
+      {
+        "name": "Allow unlimited length in document libraries",
+        "description": "SharePoint column setting required for multiline text columns used by this skill.",
+        "url": "https://support.microsoft.com/en-us/office/create-a-column-in-a-list-or-library-2b0361ae-1bd3-41a3-8329-269e5f81cfa2"
+      }
+    ]
+  }
+]
